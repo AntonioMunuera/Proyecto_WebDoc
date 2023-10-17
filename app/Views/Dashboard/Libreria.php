@@ -20,6 +20,7 @@
 </head>
 <body>
     <h1>Página de Librería</h1>
+   <h2> <?= view('/dashboard/mensaje')?> </h2>
     <table>
         <thead>
             <tr>

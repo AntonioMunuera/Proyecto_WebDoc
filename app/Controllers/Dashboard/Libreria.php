@@ -3,6 +3,7 @@
 namespace App\Controllers\Dashboard;
 use App\Controllers\BaseController;
 use App\Models\LibreriaModel;
+use CodeIgniter\I18n\Time;
 /**
  * Summary of LibreriaController
  */
@@ -27,19 +28,27 @@ class Libreria extends BaseController
 
     public function create()
     {
+        if($this->validate('librerias')){
         $libreriaModel = new LibreriaModel;
 
         $libreriaModel->insert([
             'titulo' => $this->request->getPost('titulo'),
             'descripcion' => $this->request->getPost('descripcion'),
+            'fecha_subida' => Time::now()
             
             
 
         ]
     );
-
+}else{
+    session()->setFlashdata([
+        'validation' => $this->validator->listErrors()
+        
+    ]);
+    return redirect()->back()->withInput();
+}
+    session()->setFlashdata('mensaje', 'Datos guardados exitosamente');
     return redirect()->to('/dashboard/libreria');
-
     }
 
     public function show($id = null)
@@ -63,7 +72,9 @@ class Libreria extends BaseController
 
     public function update($id = null)
     {
-    
+        if($this->validate('librerias')){
+
+        
         $libreriaModel = new LibreriaModel;
 
         $libreriaModel->update($id,[
@@ -73,7 +84,16 @@ class Libreria extends BaseController
             
 
         ]
+    
     );
+}else{
+    session()->setFlashdata([
+        'validation' => $this->validator->listErrors()
+        
+    ]);
+    return redirect()->back()->withInput();
+}
+    session()->setFlashdata('mensaje', 'Datos cambiados exitosamente');
     return redirect()->to('/dashboard/libreria');
     }
 
@@ -84,7 +104,7 @@ class Libreria extends BaseController
         $libreriaModel->find($id);
        $libreriaModel->delete($id);
 
-         
+       session()->setFlashdata('mensaje', 'Datos borrados exitosamente');
         return redirect()->back();
     }
 }

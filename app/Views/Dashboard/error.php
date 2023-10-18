@@ -1,7 +1,7 @@
 <?php 
 
 if(session()->has('validation')) {
-    echo session('validation');
+    echo session('validation')->listErrors();
 }
 
  ?>

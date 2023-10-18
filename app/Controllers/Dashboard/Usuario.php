@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Controllers\Dashboard;
+
+use App\Controllers\BaseController;
+use App\Models\UsuarioModel;
+
+class Usuario extends BaseController
+{
+    public function crear_usuario()
+    {
+     $usuarioModel = new UsuarioModel();
+
+     $usuarioModel->insert(
+     [
+        'usuario'=>'admin',
+        'correo'=>'admin@gmail.com',
+        'contrasena'=>$usuarioModel->contrasenaHash('12345'),
+     
+     ]);
+
+    }
+
+    function login() {
+
+        echo view ('dashboard/login');
+        
+    }
+    function login_post() {
+
+        $usuarioModel = new UsuarioModel();
+        
+        $correo = $this->request->getPost('correo');
+        $contrasena = $this->request->getPost('contrasena');
+
+        $usuario = $usuarioModel->select('id,usuario,correo,contrasena,rol')
+        ->orwhere('correo',$correo)
+        ->orwhere('usuario',$correo)
+        ->first();
+
+        if (!$usuario) {
+
+            return redirect()->back()->with('mensaje','Usuario y/o contraseña incorretos');
+    }
+
+    if ($usuarioModel->contrasenaVerificar($contrasena,$usuario->contrasena)){
+        unset($usuario->contrasena);
+        session()->set('usuario',$usuario);
+
+        return redirect()->to('/dashboard/libreria')->with('mensaje',"Bienvenido $usuario->usuario");
+    }
+
+    return redirect()->back()->with('mensaje','Usuario y/o contraseña incorretos');
+}
+
+function register() {
+
+    echo view ('dashboard/register');
+    
+}
+function register_post() {
+
+    $usuarioModel = new UsuarioModel();
+
+
+    if ($this->validate('usuarios')) {
+        $usuarioModel->insert([
+        'usuario' => $this->request->getPost('usuario'),
+        'correo' => $this->request->getPost('correo'),
+        'contrasena' => $usuarioModel->contrasenaHash($this->request->getPost('contrasena'))
+        ]);
+
+        return redirect()->to(route_to('usuario.login'))->with('mensaje','Registro completado correctamente');
+    }
+    session()->setFlashdata([
+        'validation'=>$this->validator
+    ]);
+    return redirect()->back()->withInput();
+
+
+}
+   function logout() {
+
+    session()->destroy();
+
+    return redirect()->to(route_to('usuario.login'));
+    
+   }
+}

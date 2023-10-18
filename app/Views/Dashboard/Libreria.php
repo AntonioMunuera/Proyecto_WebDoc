@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body{
+            background-color: gray;
+        }
         table {
             border-collapse: collapse;
             width: 100%;
@@ -15,6 +18,9 @@
         }
         th {
             background-color: #f2f2f2;
+        }
+        td{
+            background-color: whitesmoke;
         }
     </style>
 </head>

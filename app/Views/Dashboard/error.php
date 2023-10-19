@@ -1,7 +1,6 @@
 <?php 
 
-if(session()->has('validation')) {
-    echo session('validation')->listErrors();
+if (session()->getFlashdata('validation')) {
+    echo session()->getFlashdata('validation');
 }
-
  ?>

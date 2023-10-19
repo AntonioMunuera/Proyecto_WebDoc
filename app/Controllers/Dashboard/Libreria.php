@@ -17,13 +17,13 @@ class Libreria extends BaseController
 
     {   
         $libreriaModel = new LibreriaModel;
-        return view('Dashboard/libreria', ['libros'=> $libreriaModel->findAll()]);
+        return view('Dashboard/Libreria/libreria', ['libros'=> $libreriaModel->findAll()]);
     }
 
 
     public function new()
     {
-        return view('Dashboard/crear');
+        return view('Dashboard/Libreria/crear');
     }
 
     public function create()
@@ -56,7 +56,7 @@ class Libreria extends BaseController
         // Mostrar detalles del libro
         $libreriaModel = new LibreriaModel;
         
-       echo view('Dashboard/ver',[
+       echo view('Dashboard/Libreria/ver',[
         'libros' => $libreriaModel->find($id)
        ]);
     }
@@ -65,7 +65,7 @@ class Libreria extends BaseController
     {
         $libreriaModel = new LibreriaModel;
         
-       echo view('Dashboard/editar',[
+       echo view('Dashboard/Libreria/editar',[
         'libros' => $libreriaModel->find($id)
        ]);
     }

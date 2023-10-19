@@ -5,6 +5,10 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->group("api",['namespace' => 'App\Controllers\Api'] ,function ( $routes) {
+$routes->resource("categoria");
+$routes->resource("libreria");
+});
 
 $routes->group('dashboard', ['namespace' => 'App\Controllers\Dashboard'], function($routes){
 
@@ -37,9 +41,28 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Dashboard'], functi
 
     $routes->get('usuario/register','\App\Controllers\Dashboard\usuario::register', ['as'=> 'usuario.register']);
     $routes->post('usuario/register_post','\App\Controllers\Dashboard\usuario::register_post', ['as'=> 'usuario.register_post']);
-
+    $routes->get('usuario/logout','\App\Controllers\Dashboard\usuario::logout', ['as'=> 'usuario.logout']);
     $routes->get('acerca-de','Acercade::index');
     $routes->get('contacto','contacto::index');
     
+    $routes->get('categoria', 'categoria::index');
 
+    // Ruta para ver el formulario de creación de un nuevo artículo
+    $routes->get('categoria/crear', 'categoria::new');
+
+    // Ruta para guardar el nuevo artículo (después de enviar el formulario)
+    $routes->post('categoria/guardar', 'categoria::create');
+
+    // Ruta para ver el detalle de un artículo específico (por ID)
+    $routes->get('categoria/ver/(:num)', 'categoria::show/$1');
+
+    // Ruta para ver el formulario de edición de un artículo
+    $routes->get('categoria/editar/(:num)', 'categoria::edit/$1');
+
+    // Ruta para actualizar el artículo
+    $routes->post('categoria/actualizar/(:num)', 'categoria::update/$1');
+
+    // Ruta para eliminar un artículo
+    $routes->post('categoria/eliminar/(:num)', 'categoria::delete/$1');
+    
 });

@@ -17,10 +17,10 @@
             padding: 8px 12px;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: darkslategrey;
         }
         td{
-            background-color: whitesmoke;
+            background-color: darkcyan;
         }
     </style>
 </head>

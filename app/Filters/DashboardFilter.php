@@ -25,7 +25,17 @@ class DashboardFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        //
+        // Si el usuario no está autenticado
+        if (!session()->get("usuario")) {
+            session()->setFlashdata('mensaje', 'Debe iniciar sesión para acceder a esta página.');
+            return redirect()->to(route_to("usuario.login"));
+        }
+        
+        // Si el usuario no es administrador
+        if (session()->get("usuario")->rol != 'admin') {
+            session()->setFlashdata('mensaje', 'No tiene permiso para acceder a esta página.');
+            return redirect()->to(route_to("usuario.login"));
+        }
     }
 
     /**

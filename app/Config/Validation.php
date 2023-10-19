@@ -54,5 +54,13 @@ class Validation extends BaseConfig
     'correo' => 'valid_email|required|is_unique[usuarios.correo]',
     'contrasena' => 'required|min_length[5]|max_length[30]'
    ];
+   /**
+    * Summary of categorias
+    * @var array
+    */
+   public $categorias = [
+    'nombre' => 'required|min_length[3]|max_length[60]',
+    'descripcion' => 'required|min_length[3]|max_length[300]'
+   ];
 
 }

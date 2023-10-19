@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver</title>
-</head>
-<body>
+<?= $this->extend('/Dashboard/Layout/header') ?>
+
+<?= $this->section('content') ?>
+
     <h1><?= esc($categorias->nombre) ?></h1>
     <p><?= esc($categorias->descripcion) ?></p>
-</body>
-</html>
+
+<?= $this->endSection() ?>

@@ -46,11 +46,27 @@ class CategoriaModel extends Model
      * @return array Array modificado con el slug.
      */
     protected function setSlug(array $data)
-    {
-        if (isset($data['data']['nombre'])) {
-            $data['data']['slug'] = url_title($data['data']['nombre'], '-', true); // TRUE convierte el slug a minúsculas
-        }
-
-        return $data;
+{
+    if (isset($data['data']['nombre'])) {
+        $slug = url_title($data['data']['nombre'], '-', true); // TRUE converts the slug to lowercase
+        $data['data']['slug'] = $this->ensureUniqueSlug($slug);
     }
+
+    return $data;
+}
+
+protected function ensureUniqueSlug($slug)
+{
+    $builder = $this->db->table('categorias'); // Assuming you have $this->db initialized to the database connection
+
+    $originalSlug = $slug;
+    $counter = 1;
+
+    while ($builder->where('slug', $slug)->countAllResults() > 0) {
+        $slug = $originalSlug . '-' . $counter;
+        $counter++;
+    }
+
+    return $slug;
+}
 }

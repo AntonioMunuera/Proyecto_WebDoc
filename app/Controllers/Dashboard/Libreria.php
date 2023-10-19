@@ -14,13 +14,16 @@ class Libreria extends BaseController
      * @return string
      */
     public function index()
+{   
+    $libreriaModel = new LibreriaModel;
+    $libros['datos'] = $libreriaModel->paginate(10); // 10 es el número de registros por página
+    $libros['pager'] = $libreriaModel->pager;
+    $libros['libros'] = $libreriaModel->findAll();
+    return view('Dashboard/Libreria/libreria', $libros);
+}
 
-    {   
-        $libreriaModel = new LibreriaModel;
-        return view('Dashboard/Libreria/libreria', ['libros'=> $libreriaModel->findAll()]);
-    }
 
-
+    
     public function new()
     {
         return view('Dashboard/Libreria/crear');

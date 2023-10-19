@@ -1,6 +1,6 @@
 <?php
 namespace App\Controllers\Api;
-
+use CodeIgniter\I18n\Time;
 
 use CodeIgniter\RESTful\ResourceController;
 
@@ -23,9 +23,9 @@ class Libreria extends ResourceController{
         if($this->validate('librerias')){
     
             $id = $this->model->insert([
-                'titulo' => $this->request->getPost('nombre'),
+                'titulo' => $this->request->getPost('titulo'),
                 'descripcion' => $this->request->getPost('descripcion'),
-                
+                'fecha_subida' => Time::now()
                 
     
             ]
@@ -50,8 +50,8 @@ public function update($id = null)
          $this->model->update($id,
         [
 
-            'titulo' => $this->request->getPost('titulo'),
-            'descripcion' => $this->request->getPost('descripcion'),
+            'titulo' => $this->request->getRawInput()['titulo'],
+            'descripcion' => $this->request->getRawInput()['descripcion'],
 
         ]
     
@@ -66,6 +66,11 @@ public function update($id = null)
 
 
 }
+public function show($id = null)
+    {
+        return $this->respond($this->model->find($id));
+    }
+    
 
 
 public function delete($id = null)

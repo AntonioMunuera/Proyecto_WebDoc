@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <?= view('Dashboard/error')  ?>
+<?= $this->extend('/Dashboard/Layout/header') ?>
+
+<?= $this->section('content') ?>
+
     <form action="/dashboard/categoria/guardar" method="post">
         <label for="nombre">Titulo:</label>
         <input type="text" name="nombre" placeholder="Nombre de Categoria" id="nombre" value="<?= old('nombre')?>">
@@ -18,5 +13,5 @@
 
 
     </form>
-</body>
-</html>
+    
+<?= $this->endSection() ?>

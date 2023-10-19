@@ -12,9 +12,9 @@ $routes->resource("libreria");
 
 $routes->group('dashboard', ['namespace' => 'App\Controllers\Dashboard'], function($routes){
 
-    $routes->get('inicio','Inicio::index'); //Ruta predeterminada de inicio
+    $routes->get('inicio','\App\Controllers\Dashboard\Inicio::index', ['as'=> 'inicio.index']); //Ruta predeterminada de inicio
     // Ruta para ver la lista de artículos
-    $routes->get('libreria', 'libreria::index');
+    $routes->get('libreria', '\App\Controllers\Dashboard\libreria::index',['as'=> 'libreria.index']);
 
     // Ruta para ver el formulario de creación de un nuevo artículo
     $routes->get('libreria/crear', 'libreria::new');
@@ -42,10 +42,12 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Dashboard'], functi
     $routes->get('usuario/register','\App\Controllers\Dashboard\usuario::register', ['as'=> 'usuario.register']);
     $routes->post('usuario/register_post','\App\Controllers\Dashboard\usuario::register_post', ['as'=> 'usuario.register_post']);
     $routes->get('usuario/logout','\App\Controllers\Dashboard\usuario::logout', ['as'=> 'usuario.logout']);
-    $routes->get('acerca-de','Acercade::index');
-    $routes->get('contacto','contacto::index');
     
-    $routes->get('categoria', 'categoria::index');
+    $routes->get('acerca-de','\App\Controllers\Dashboard\Acercade::index', ['as' => 'acercade.index']);
+
+    $routes->get('contacto', '\App\Controllers\Dashboard\Contacto::index', ['as' => 'contacto.index']);
+
+    $routes->get('categoria', '\App\Controllers\Dashboard\categoria::index',['as'=> 'categoria.index']);
 
     // Ruta para ver el formulario de creación de un nuevo artículo
     $routes->get('categoria/crear', 'categoria::new');

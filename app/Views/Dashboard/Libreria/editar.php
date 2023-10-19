@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <?= view('Dashboard/error')  ?>
+<?= $this->extend('/Dashboard/Layout/header') ?>
+
+<?= $this->section('content') ?>
+
     <form action="/dashboard/libreria/actualizar/<?= esc($libros->id)?>" method="post">
         <label for="titulo">Titulo:</label>
         <input type="text" name="titulo" placeholder="Titulo" id="titulo" value="<?= old('titulo', esc($libros->titulo)) ?>">
@@ -18,5 +13,5 @@
 
 
     </form>
-</body>
-</html>
+
+<?= $this->endSection() ?>

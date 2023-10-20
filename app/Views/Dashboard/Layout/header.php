@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebDoc</title>
     <link rel="stylesheet" href="<?= base_url('bootstrap/css/bootstrap.min.css') ?>">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
   
   body {
@@ -44,9 +46,16 @@ img.logo {
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="<?=route_to('libreria.index')?>">Libreria</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<?=route_to('categoria.index')?>">Categorias</a>
-        </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="<?=route_to('categoria.index')?>" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categorías
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Subcategoría 1</a>
+          <a class="dropdown-item" href="#">Subcategoría 2</a>
+          <a class="dropdown-item" href="#">Subcategoría 3</a>
+        </div>
+      </li>
         <li class="nav-item">
           <a href="<?=route_to('acercade.index')?>" class="nav-link" >Acerca de</a>
         </li>

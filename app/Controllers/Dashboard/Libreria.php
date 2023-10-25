@@ -2,8 +2,12 @@
 
 namespace App\Controllers\Dashboard;
 use App\Controllers\BaseController;
+use App\Models\ComentarioModel;
 use App\Models\LibreriaModel;
+use App\Models\CategoriaModel;
+use App\Models\UsuarioModel;
 use CodeIgniter\I18n\Time;
+
 /**
  * Summary of LibreriaController
  */
@@ -16,8 +20,14 @@ class Libreria extends BaseController
     public function index()
     {   
         $libreriaModel = new LibreriaModel;
+    
+        // Join con la tabla categorias y seleccionar todos los campos de ambas tablas.
+        $libreriaModel->select('librerias.*, categorias.nombre AS categoria')
+                      ->join('categorias', 'categorias.id_categoria = librerias.id_categoria');
+    
         $data['libros'] = $libreriaModel->paginate(10);
         $data['pager'] = $libreriaModel->pager;
+    
         return view('Dashboard/Libreria/libreria', $data);
     }
 
@@ -25,7 +35,13 @@ class Libreria extends BaseController
     
     public function new()
     {
-        return view('Dashboard/Libreria/crear');
+        $categoriaModel = new CategoriaModel;
+        return view('Dashboard/Libreria/crear',[
+            'libreria'=> new LibreriaModel(),
+            'categoria'=> $categoriaModel->find()
+
+        ]);
+
     }
 
     public function create()
@@ -36,7 +52,8 @@ class Libreria extends BaseController
         $libreriaModel->insert([
             'titulo' => $this->request->getPost('titulo'),
             'descripcion' => $this->request->getPost('descripcion'),
-            'fecha_subida' => Time::now()
+            'fecha_subida' => Time::now(),
+            'id_categoria' => $this->request->getPost('id_categoria'),
             
             
 
@@ -55,20 +72,50 @@ class Libreria extends BaseController
 
     public function show($id = null)
     {
-        // Mostrar detalles del libro
+        // Modelos
         $libreriaModel = new LibreriaModel;
-        
-       echo view('Dashboard/Libreria/ver',[
-        'libros' => $libreriaModel->find($id)
-       ]);
+        $comentarioModel = new ComentarioModel;
+        $usuarioModel = new UsuarioModel;
+        // Obteniendo datos
+        $libros = $libreriaModel->find($id);
+        $comentarios = $comentarioModel->getComentariosConUsuario($id);
+        $usuarios = $usuarioModel->find($id);
+        // Pasando datos a la vista
+        echo view('Dashboard/Libreria/ver', [
+            'libros' => $libros,
+            'comentarios' => $comentarios,
+            'usuarios' => $usuarios
+        ]);
     }
-
+    public function agregar()
+    {
+        $comentarioModel = new ComentarioModel();
+    
+        // Verificar si el usuario está en la sesión
+        $usuario = session()->get('usuario');
+        if ($usuario && isset($usuario->id)) {
+            $data = [
+                'id_libro' => $this->request->getPost('id_libro'),
+                'id_usuario' => $usuario->id,
+                'contenido' => $this->request->getPost('contenido'),
+                'fecha_publicacion' => Time::now(),
+            ];
+    
+            $comentarioModel->insert($data);
+    
+            return redirect()->to('/dashboard/libreria/ver/'. $data['id_libro']);
+        } else {
+            session()->setFlashdata('mensaje', 'Debes estar iniciado sesion para comentar');
+            return redirect()->to(route_to('usuario.login'));
+        }
+    }
     public function edit($id = null)
     {
         $libreriaModel = new LibreriaModel;
-        
+        $categoriaModel = new CategoriaModel;
        echo view('Dashboard/Libreria/editar',[
-        'libros' => $libreriaModel->find($id)
+        'libros' => $libreriaModel->find($id),
+        'categoria' => $categoriaModel->find()
        ]);
     }
 
@@ -82,7 +129,7 @@ class Libreria extends BaseController
         $libreriaModel->update($id,[
             'titulo' => $this->request->getPost('titulo'),
             'descripcion' => $this->request->getPost('descripcion'),
-            
+            'id_categoria' => $this->request->getPost('id_categoria'),
             
 
         ]
@@ -108,5 +155,12 @@ class Libreria extends BaseController
 
        session()->setFlashdata('mensaje', 'Datos borrados exitosamente');
         return redirect()->back();
+    }
+
+
+    public function mostrarLibreriasPorCategoria($categoriaName) {
+        $libreriaModel = new LibreriaModel;
+        $data['librerias'] = $this->LibreriaModel->getLibreriasByCategoria($categoriaName);
+        return view('/dashboard/categoria/ver/', $data);
     }
 }

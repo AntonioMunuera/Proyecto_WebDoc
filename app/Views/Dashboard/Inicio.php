@@ -3,6 +3,10 @@
 
 <?= $this->section('content') ?>
 
+<form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Busca en WebDoc" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
 <div class="container mt-5">
     <div class="jumbotron">
         <h1 class="display-4">¡Bienvenido a WebDoc!</h1>

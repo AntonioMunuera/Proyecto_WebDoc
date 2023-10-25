@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Dashboard;
 use App\Controllers\BaseController;
+use App\Models\CategoriaModel;
 /**
  * Summary of HomeController
  */
@@ -13,6 +14,9 @@ class Inicio extends BaseController
      */
     public function index(): string
     {
-        return view('Dashboard/Inicio');
+        $categoriaModel = new CategoriaModel();
+        
+        return view('Dashboard/Inicio', ['categorias'=> $categoriaModel->findAll()
+    ]);
     }
 }

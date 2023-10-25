@@ -69,4 +69,14 @@ protected function ensureUniqueSlug($slug)
 
     return $slug;
 }
+
+public function getLibreriasByCategoria($categoriaName) {
+    $this->db->select('*');  // Selecciona todos los campos
+    $this->db->from('librerias');  // Desde la tabla "librerias"
+    $this->db->join('categorias', 'categorias.id_categoria = librerias.id_categoria');  // Realiza un JOIN con la tabla "categorias" basado en el campo id_categoria
+    $this->db->where('categorias.nombre', $categoriaName);  // Filtra los resultados por el nombre de la categoría
+    $query = $this->db->get();  // Ejecuta la consulta
+    return $query->result();  // Devuelve los resultados
+
+}
 }

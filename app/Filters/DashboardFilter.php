@@ -5,6 +5,7 @@ namespace App\Filters;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\CategoriaModel;
 
 class DashboardFilter implements FilterInterface
 {
@@ -25,6 +26,11 @@ class DashboardFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        
+        $categoriaModel = new CategoriaModel();
+        $categorias = $categoriaModel->findAll();
+        session()->set('categorias', $categorias);
+        
         // Si el usuario no está autenticado
         if (!session()->get("usuario")) {
             session()->setFlashdata('mensaje', 'Debe iniciar sesión para acceder a esta página.');
@@ -36,6 +42,7 @@ class DashboardFilter implements FilterInterface
             session()->setFlashdata('mensaje', 'No tiene permiso para acceder a esta página.');
             return redirect()->to(route_to("usuario.login"));
         }
+
     }
 
     /**

@@ -7,9 +7,10 @@
             <tr>
                 <th>ID</th>
                 <th>Titulo</th>
+                <th>Categoría</th>
                 <th>Descripción</th>
                 <th>Fecha de Subida</th>
-                <th>Nº de Descargas</th>
+                <th>Valoración</th>
                 <th>Ver/Editar/Eliminar</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <tr>
                     <td><?= esc($libros->id) ?></td>
                     <td><?= esc($libros->titulo) ?></td>
+                    <td><?= esc($libros->categoria) ?></td>
                     <td><?= esc($libros->descripcion) ?></td>                 
                     <td><?= esc($libros->fecha_subida) ?></td>
                     <td><?= esc($libros->numero_descarga) ?></td> 

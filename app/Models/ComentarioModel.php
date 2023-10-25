@@ -4,16 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class LibreriaModel extends Model
+class ComentarioModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'librerias';
+    protected $table            = 'comentarios';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','id_categoria','titulo','descripcion','ruta_archivo','formato','tamano','fecha_subida','numero_descarga'];
+    protected $allowedFields    = ['id', 'id_libro', 'id_usuario', 'contenido', 'fecha_publicacion'];
 
     // Dates
     protected $useTimestamps = false;
@@ -38,14 +38,11 @@ class LibreriaModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-
-    public function getLibreriasByCategoria($categoriaName) {
-        $this->db->select('*');
-        $this->db->from('librerias');
-        $this->db->join('categorias', 'categorias.id_categoria = librerias.id_categoria');
-        $this->db->where('categorias.nombre', $categoriaName);
-        $query = $this->db->get();
-        return $query->result();
-    }
+    public function getComentariosConUsuario($id_libro) 
+{
+    return $this->select('comentarios.*, usuarios.usuario AS usuario') // O cualquier otro campo de usuarios que quieras
+               ->join('usuarios', 'usuarios.id = comentarios.id_usuario')
+               ->where('comentarios.id_libro', $id_libro)
+               ->findAll();
+}
 }

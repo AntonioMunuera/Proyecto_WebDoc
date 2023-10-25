@@ -3,6 +3,7 @@
 namespace App\Controllers\Dashboard;
 use App\Models\CategoriaModel;
 use App\Controllers\BaseController;
+use App\Models\LibreriaModel;
 
 class Categoria extends BaseController
 {
@@ -44,14 +45,30 @@ class Categoria extends BaseController
     }
 
     public function show($id_categoria = null)
-    {
-        // Mostrar detalles del libro
-        $categoriaModel = new categoriaModel;
-        
-       echo view('Dashboard/categoria/ver',[
-        'categorias' => $categoriaModel->find($id_categoria)
-       ]);
+{
+    // Instanciar modelos
+    $categoriaModel = new CategoriaModel;
+    $libreriaModel = new LibreriaModel;
+
+    // Obtener la categoría
+    $categoria = $categoriaModel->find($id_categoria);
+    if (!$categoria) {
+        // Si la categoría no existe, puedes redireccionar o mostrar un error.
+        return redirect()->back()->with('error', 'Categoría no encontrada.');
     }
+
+    // Obtener las librerías por categoría con paginación
+    $librerias = $libreriaModel->where('id_categoria', $id_categoria)->paginate(10); // por ejemplo, 10 items por página
+
+    // Pasar datos a la vista
+    echo view('Dashboard/categoria/ver', [
+        'categorias' => $categoria,
+        'libros' => $librerias,
+        'pager' => $libreriaModel->pager // Pasamos también el pager para generar los enlaces en la vista.
+    ]);
+}
+
+
 
     public function edit($id_categoria = null)
     {

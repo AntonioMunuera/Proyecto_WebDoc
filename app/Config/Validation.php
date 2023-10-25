@@ -46,7 +46,8 @@ class Validation extends BaseConfig
 
    public $librerias = [
     'titulo' => 'required|min_length[3]|max_length[255]',
-    'descripcion' => 'required|min_length[3]|max_length[2000]'
+    'descripcion' => 'required|min_length[3]|max_length[2000]',
+    'id_categoria' => 'required|is_natural'
    ];
 
    public $usuarios = [

@@ -55,6 +55,8 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Dashboard'], functi
     // Ruta para guardar el nuevo artículo (después de enviar el formulario)
     $routes->post('categoria/guardar', 'categoria::create');
 
+    $routes->post('comentarios/agregar', 'libreria::agregar');
+
     // Ruta para ver el detalle de un artículo específico (por ID)
     $routes->get('categoria/ver/(:num)', 'categoria::show/$1');
 

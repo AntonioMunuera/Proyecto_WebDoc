@@ -1,3 +1,5 @@
+<?php $categorias = session()->get('categorias'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +18,9 @@
     min-height: 100vh;
     
 }
+#miNavbar {
+  border-bottom: 2px solid #b0c7d1;
+}
 
 footer {
     margin-top: auto;
@@ -25,15 +30,29 @@ img.logo {
     width: 100px;  /* mantiene la proporción original */
 }
 
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.nav .nav-link:hover,
+.nav .nav-link:focus {
+  transform: scale(1.2);
+  color: #1b2530; /* O el color que prefieras */
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link,
+.nav .nav-link {
+  transition: all 0.3s ease;
+}
+
 </style>
 </head>
 
     <header>
         
     
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg" id="miNavbar" style="background-color: #cbdbe5;">
   <div class="container-fluid">
-  <img src="/images/logo.png" alt="Logo" class="logo" >
+  <img src="/images/logo.jpeg" alt="Logo" class="logo" >
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -41,19 +60,21 @@ img.logo {
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<?=route_to('inicio.index')?>">Inicio</a>
+          <a class="nav-link" aria-current="page" href="<?=route_to('inicio.index')?>">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<?=route_to('libreria.index')?>">Libreria</a>
+          <a class="nav-link" aria-current="page" href="<?=route_to('libreria.index')?>">Libreria</a>
         </li>
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="<?=route_to('categoria.index')?>" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Categorías
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Subcategoría 1</a>
-          <a class="dropdown-item" href="#">Subcategoría 2</a>
-          <a class="dropdown-item" href="#">Subcategoría 3</a>
+        <?php foreach ($categorias as $categorias) : ?>
+          <a class="dropdown-item" href="/dashboard/categoria/ver/<?= $categorias->id_categoria ?>"><?= $categorias->nombre ?></a>
+<?php endforeach ?>
+          
+          
         </div>
       </li>
         <li class="nav-item">
@@ -79,10 +100,10 @@ img.logo {
 <?php else: ?> <!-- Si el usuario no ha iniciado sesión -->
 
 <li class="nav-item">
-    <a class="nav-link active" href="<?= route_to('usuario.register') ?>">Registrarse</a>
+    <a class="nav-link" style="color: #444c6c ;" href="<?= route_to('usuario.register') ?>">Registrarse</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="<?= route_to('usuario.login') ?>">Iniciar Sesion</a>
+    <a class="nav-link" style="color: #444c6c ;" href="<?= route_to('usuario.login') ?>">Iniciar Sesion</a>
 </li>
 
 <?php endif; ?>
@@ -96,7 +117,7 @@ img.logo {
 </nav>
 </header>
 
-<body class="d-flex flex-column min-vh-100 ">
+<body class="d-flex flex-column min-vh-100" style="background-color: #f9fafb;">
 <?= view('Dashboard/mensaje')?>
 <?= view('Dashboard/error')?>
 <div class="container mt-4">
@@ -111,8 +132,8 @@ img.logo {
 </div>
 
 </body>
-<footer class="bg-dark text-white py-3 mt-auto">
+<footer class="bg-dark text-white py-3 mt-auto" style="background-color: #343a40;">
+    <div class="container text-center">
         <p>© 2023 Mi Sitio. Todos los derechos reservados.</p>
+    </div>
 </footer>
-
-</html>

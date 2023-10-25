@@ -9,6 +9,10 @@ use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Filters\FilterInterface;
+use App\Models\CategoriaModel;
 
 class Filters extends BaseConfig
 {
@@ -72,7 +76,10 @@ class Filters extends BaseConfig
 
         'DashboardFilter'=>[
             'before'=> [
-                'dashboard/libreria',
+                'dashboard/libreria/',
+                'dashboard/categoria/*',
+                'dashboard/categoria'
+
                 
             ]
         ]

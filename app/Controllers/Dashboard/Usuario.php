@@ -4,22 +4,11 @@ namespace App\Controllers\Dashboard;
 
 use App\Controllers\BaseController;
 use App\Models\UsuarioModel;
+use CodeIgniter\I18n\Time;
 
 class Usuario extends BaseController
 {
-    public function crear_usuario()
-    {
-     $usuarioModel = new UsuarioModel();
-
-     $usuarioModel->insert(
-     [
-        'usuario'=>'admin',
-        'correo'=>'admin@gmail.com',
-        'contrasena'=>$usuarioModel->contrasenaHash('12345'),
-     
-     ]);
-
-    }
+    
 
     function login() {
 
@@ -46,10 +35,10 @@ class Usuario extends BaseController
     if ($usuarioModel->contrasenaVerificar($contrasena,$usuario->contrasena)){
         unset($usuario->contrasena);
         session()->set('usuario',$usuario);
-
-        return redirect()->to('/dashboard/libreria')->with('mensaje',"Bienvenido $usuario->usuario");
+        
+        return redirect()->to('/dashboard/inicio');
     }
-
+    
     return redirect()->back()->with('mensaje','Usuario y/o contraseña incorretos');
 }
 
@@ -67,7 +56,8 @@ function register_post() {
         $usuarioModel->insert([
         'usuario' => $this->request->getPost('usuario'),
         'correo' => $this->request->getPost('correo'),
-        'contrasena' => $usuarioModel->contrasenaHash($this->request->getPost('contrasena'))
+        'contrasena' => $usuarioModel->contrasenaHash($this->request->getPost('contrasena')),
+        'fecha_creacion'=> Time::now()
         ]);
 
         return redirect()->to(route_to('usuario.login'))->with('mensaje','Registro completado correctamente');

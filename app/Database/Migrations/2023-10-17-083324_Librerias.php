@@ -47,9 +47,17 @@ class Librerias extends Migration
             'type'=>'INT',
             'unsigned'=>TRUE,
         ],
+        
+        'id_categoria'=>[
+            'type'=>'INT',
+            'constraint'=> 5,
+            'unsigned'=>TRUE,
+           
+        ],
     ]);
 
     $this->forge->addKey('id', TRUE);
+    $this->forge->addForeignKey('id_categoria','categorias','id_categoria','CASCADE','CASCADE');
     $this->forge->createTable('librerias');
 
         }

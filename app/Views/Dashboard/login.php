@@ -34,15 +34,15 @@
 @media screen and (min-width: 642px) and (max-width:800px){
 	.main-content{width: 70%;}
 }
-.row > h2{
+.row > h3{
 	color:#008080;
 }
 .login_form{
 	background-color: #fff;
 	border-top-right-radius:20px;
 	border-bottom-right-radius:20px;
-	border-top:1px solid #ccc;
-	border-right:1px solid #ccc;
+	border-top:1px solid #cbdbe5;
+	border-right:1px solid #cbdbe5;
 }
 form{
 	padding: 0 2em;
@@ -51,7 +51,7 @@ form{
 	width: 100%;
 	border:0px solid transparent;
 	border-radius: 0;
-	border-bottom: 1px solid #aaa;
+	border-bottom: 1px solid #b0c7d1;
 	padding: 1em .5em .5em;
 	padding-left: 2em;
 	outline:none;
@@ -59,7 +59,7 @@ form{
 	transition: all .5s ease;
 }
 .form__input:focus{
-	border-bottom-color: #008080;
+	border-bottom-color: #b0c7d1;
 	box-shadow: 0 0 5px rgba(0,80,80,.4); 
 	border-radius: 4px;
 }
@@ -70,12 +70,12 @@ form{
 	color:#008080;
 	font-weight: 600;
 	background-color: #fff;
-	border: 1px solid #008080;
+	border: 1px solid #b0c7d1;
 	margin-top: 1.5em;
 	margin-bottom: 1em;
 }
 .btn:hover, .btn:focus{
-	background-color: #008080;
+	background-color: #cbdbe5;
 	color:#fff;
 }
 
@@ -95,7 +95,7 @@ form{
 			<div class="col-md-8 col-xs-12 col-sm-12 login_form ">
 				<div class="container-fluid">
 					<div class="row">
-						<h2>Iniciar Sesión</h2>
+						<h3><br>Iniciar Sesión</h3>
 					</div>
 					<div class="row">
 						<form action="<?= route_to('usuario.login_post')?>" method="post"control="" class="form-group">

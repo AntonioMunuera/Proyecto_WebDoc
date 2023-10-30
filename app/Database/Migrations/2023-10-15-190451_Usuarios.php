@@ -20,7 +20,14 @@ class Usuarios extends Migration
                 'constraint'=> 100,
                 'unique'=>TRUE
                 
-            ],'rol' => [
+            ],
+            'imagen'=>[
+                'type'=>'VARCHAR',
+                'constraint'=> 255,
+                'null'=>TRUE
+                
+            ],
+            'rol' => [
                 'type' => 'ENUM',
                 'constraint' => ['admin','usuario'],
                 'default' => 'usuario', // Define un valor predeterminado, si lo deseas.
@@ -43,11 +50,8 @@ class Usuarios extends Migration
                 'type'=>'DATETIME',
                
                 
-            ],
-            'fecha_ultima_conexion'=>[
-                'type'=>'DATETIME',
-                'null'=>TRUE,
             ]
+           
         ]);
     
         $this->forge->addKey('id', TRUE);

@@ -20,28 +20,34 @@ class Categoria extends BaseController
         return view('Dashboard/categoria/crear');
     }
 
-    public function create()
-    {
-        if($this->validate('categorias')){
-        $categoriaModel = new CategoriaModel;
-
-        $categoriaModel->insert([
-            'nombre' => $this->request->getPost('nombre'),
-            'descripcion' => $this->request->getPost('descripcion'),
-            
-            
-
-        ]
-    );
-}else{
-    session()->setFlashdata([
-        'validation' => $this->validator->listErrors()
+    public function create() {
+        helper(['form', 'url']);
         
-    ]);
-    return redirect()->back()->withInput();
-}
-    session()->setFlashdata('mensaje', 'Datos guardados exitosamente');
-    return redirect()->to('/dashboard/categoria');
+        if ($this->validate('categorias')) {
+            $categoriaModel = new CategoriaModel;
+    
+            $imagen = $this->request->getFile('imagen');
+            if ($imagen->isValid() && !$imagen->hasMoved()) {
+                $nombreImagenNuevo = $imagen->getRandomName();
+                $imagen->move(FCPATH . 'images/categoria', $nombreImagenNuevo);
+            } else {
+                return redirect()->back()->with('mensaje', 'No se pudo cargar la imagen')->withInput();
+            }
+    
+            $categoriaModel->insert([
+                'nombre' => $this->request->getPost('nombre'),
+                'descripcion' => $this->request->getPost('descripcion'),
+                'imagen' => $nombreImagenNuevo,
+            ]);
+    
+            session()->setFlashdata('mensaje', 'Datos guardados exitosamente');
+            return redirect()->to('/categoria');
+        } else {
+            session()->setFlashdata([
+                'validation' => $this->validator->listErrors()
+            ]);
+            return redirect()->back()->withInput();
+        }
     }
 
     public function show($id_categoria = null)
@@ -81,31 +87,37 @@ class Categoria extends BaseController
 
     public function update($id_categoria = null)
     {
-        if($this->validate('categorias')){
-
-        
-        $categoriaModel = new categoriaModel;
-
-        $categoriaModel->update($id_categoria,[
-            'nombre' => $this->request->getPost('nombre'),
-            'descripcion' => $this->request->getPost('descripcion'),
-            
-            
-
-        ]
+        if ($this->validate('categorias')) {
     
-    );
-}else{
-    session()->setFlashdata([
-        'validation' => $this->validator->listErrors()
-        
-    ]);
-    return redirect()->back()->withInput();
-}
-    session()->setFlashdata('mensaje', 'Datos cambiados exitosamente');
-    return redirect()->to('/dashboard/categoria');
+            $categoriaModel = new CategoriaModel;
+    
+            // Manejar la carga de archivos
+            $img = $this->request->getFile('imagen');
+            if ($img->isValid() && !$img->hasMoved()) {
+                $nuevoNombre = $img->getRandomName();
+                $img->move(FCPATH . 'images/categoria', $nuevoNombre);
+            }
+    
+            // Preparar datos para la actualización
+            $data = [
+                'nombre' => $this->request->getPost('nombre'),
+                'descripcion' => $this->request->getPost('descripcion'),
+            ];
+            if (isset($nuevoNombre)) {
+                $data['imagen'] = $nuevoNombre;
+            }
+    
+            // Actualizar la categoría
+            $categoriaModel->update($id_categoria, $data);
+    
+        } else {
+            session()->setFlashdata('validation', $this->validator->listErrors());
+            return redirect()->back()->withInput();
+        }
+    
+        session()->setFlashdata('mensaje', 'Datos cambiados exitosamente');
+        return redirect()->to('/categoria');
     }
-
     public function delete($id_categoria = null)
     {
         

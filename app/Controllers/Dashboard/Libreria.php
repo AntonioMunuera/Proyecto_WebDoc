@@ -67,7 +67,7 @@ class Libreria extends BaseController
     return redirect()->back()->withInput();
 }
     session()->setFlashdata('mensaje', 'Datos guardados exitosamente');
-    return redirect()->to('/dashboard/libreria');
+    return redirect()->to('/libreria');
     }
 
     public function show($id = null)
@@ -103,9 +103,9 @@ class Libreria extends BaseController
     
             $comentarioModel->insert($data);
     
-            return redirect()->to('/dashboard/libreria/ver/'. $data['id_libro']);
+            return redirect()->to('/libreria/ver/'. $data['id_libro']);
         } else {
-            session()->setFlashdata('mensaje', 'Debes estar iniciado sesion para comentar');
+            session()->setFlashdata('mensaje', 'Debes estar logueado para comentar');
             return redirect()->to(route_to('usuario.login'));
         }
     }
@@ -143,7 +143,7 @@ class Libreria extends BaseController
     return redirect()->back()->withInput();
 }
     session()->setFlashdata('mensaje', 'Datos cambiados exitosamente');
-    return redirect()->to('/dashboard/libreria');
+    return redirect()->to('/libreria');
     }
 
     public function delete($id = null)
@@ -161,6 +161,6 @@ class Libreria extends BaseController
     public function mostrarLibreriasPorCategoria($categoriaName) {
         $libreriaModel = new LibreriaModel;
         $data['librerias'] = $this->LibreriaModel->getLibreriasByCategoria($categoriaName);
-        return view('/dashboard/categoria/ver/', $data);
+        return view('/categoria/ver/', $data);
     }
 }

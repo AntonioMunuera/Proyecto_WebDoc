@@ -76,9 +76,10 @@ class Filters extends BaseConfig
 
         'DashboardFilter'=>[
             'before'=> [
-                'dashboard/libreria/',
-                'dashboard/categoria/*',
-                'dashboard/categoria'
+                '/libreria/*',
+                '/categoria/*',
+                '/categoria',
+                '/libreria'
 
                 
             ]

@@ -15,4 +15,13 @@ class Acercade extends BaseController
     {
         return view('Dashboard/Acercade');
     }
+
+    public function politica(): string
+    {
+        return view('Dashboard/politica');
+    }
+    public function terminos(): string
+    {
+        return view('Dashboard/terminos');
+    }
 }

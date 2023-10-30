@@ -1,5 +1,7 @@
 <?php $categorias = session()->get('categorias'); ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,16 +68,22 @@ img.logo {
           <a class="nav-link" aria-current="page" href="<?=route_to('libreria.index')?>">Libreria</a>
         </li>
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="<?=route_to('categoria.index')?>" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Categorías
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <?php foreach ($categorias as $categorias) : ?>
-          <a class="dropdown-item" href="/dashboard/categoria/ver/<?= $categorias->id_categoria ?>"><?= $categorias->nombre ?></a>
-<?php endforeach ?>
+  <a class="nav-link dropdown-toggle" href="<?=route_to('categoria.index')?>" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Categorías
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+    <?php if(is_array($categorias) && !empty($categorias)): ?>
+      <?php foreach ($categorias as $categoria): ?>
+        <a class="dropdown-item" href="/categoria/ver/<?= $categoria->id_categoria ?>"><?= $categoria->nombre ?></a>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <span class="dropdown-item">No hay categorías disponibles</span>
+    <?php endif; ?>
+  </div>
+</li>
           
           
-        </div>
+        
       </li>
         <li class="nav-item">
           <a href="<?=route_to('acercade.index')?>" class="nav-link" >Acerca de</a>
@@ -86,16 +94,21 @@ img.logo {
       </ul>
       <!-- ... Resto del código ... -->
 
-<ul class="nav justify-content-end">
+      <ul class="nav justify-content-end">
+    <?php if (session()->has('usuario')): ?>
+        <li class="nav-item d-flex align-items-center">
+            <a class="nav-link d-flex align-items-center" href="<?= route_to('usuario.mostrarPerfil') ?>" style="color: #444c6c;">
+                <?php $imagenUsuario = session('usuario')->imagen ?? 'img_predeterminada.png'; ?>
+                <img src="<?= base_url('/images/usuario/' . $imagenUsuario) ?>" alt="Imagen de usuario" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                Bienvenido, <?= session('usuario')->usuario ?>
+            </a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+            <a class="nav-link" style="color: #444c6c;" href="<?= route_to('usuario.logout') ?>">Salir de sesión</a>
+        </li>
+    
+</ul>
 
-<?php if(session()->has('usuario')): ?> <!-- Si el usuario ha iniciado sesión -->
-
-<li class="nav-item">
-    <span class="nav-link">Bienvenido, <?= session('usuario')->usuario ?></span>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="<?= route_to('usuario.logout') ?>">Salir de sesión</a>
-</li>
 
 <?php else: ?> <!-- Si el usuario no ha iniciado sesión -->
 

@@ -20,7 +20,11 @@ class Categorias extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '255'
             ],
-
+            'imagen'=>[
+                'type'=>'VARCHAR',
+                'constraint'=> 255,
+                
+            ],
             'descripcion' => [
                 'type' => 'TEXT'
             ],

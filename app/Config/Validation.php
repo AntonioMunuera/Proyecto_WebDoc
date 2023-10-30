@@ -51,9 +51,32 @@ class Validation extends BaseConfig
    ];
 
    public $usuarios = [
-    'usuario' => 'is_unique[usuarios.usuario]|required|min_length[5]|max_length[20]',
-    'correo' => 'valid_email|required|is_unique[usuarios.correo]',
-    'contrasena' => 'required|min_length[5]|max_length[30]'
+    'usuario' => [
+        'label' => 'Usuario',
+        'rules' => 'required|min_length[5]|max_length[20]|is_unique[usuarios.usuario,id,{id}]',
+        'errors' => [
+            'required' => 'El campo {field} es obligatorio.',
+            'min_length' => 'El campo {field} debe tener al menos {param} caracteres de longitud.',
+            'max_length' => 'El campo {field} no puede exceder los {param} caracteres de longitud.',
+            'is_unique' => 'Este {field} ya está registrado.',
+        ],
+    ],
+    'correo' => [
+        'label' => 'Correo',
+        'rules' => 'valid_email|required|is_unique[usuarios.correo,id,{id}]',
+        'errors' => [
+            'valid_email' => 'Debe proporcionar una dirección de correo válida.',
+            'required' => 'El campo {field} es obligatorio.',
+            'is_unique' => 'Este {field} ya está registrado.',
+        ],
+    ],
+    'contrasena' => [
+        'label' => 'Contraseña',
+        'rules' => 'permit_empty|min_length[8]',
+        'errors' => [
+            'min_length' => 'El campo {field} debe tener al menos {param} caracteres de longitud.',
+        ],
+    ],
    ];
    /**
     * Summary of categorias
@@ -63,5 +86,6 @@ class Validation extends BaseConfig
     'nombre' => 'required|min_length[3]|max_length[60]',
     'descripcion' => 'required|min_length[3]|max_length[300]'
    ];
+  
 
 }

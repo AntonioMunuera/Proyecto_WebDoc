@@ -13,7 +13,7 @@ class CategoriaModel extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_categoria','nombre','descripcion','slug'];
+    protected $allowedFields    = ['id_categoria','imagen','nombre','descripcion','slug'];
 
     // Dates
     protected $useTimestamps = false;

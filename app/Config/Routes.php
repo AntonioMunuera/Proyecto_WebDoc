@@ -10,7 +10,7 @@ $routes->resource("categoria");
 $routes->resource("libreria");
 });
 
-$routes->group('dashboard', ['namespace' => 'App\Controllers\Dashboard'], function($routes){
+$routes->group('', ['namespace' => 'App\Controllers\Dashboard'], function($routes){
 
     $routes->get('inicio','\App\Controllers\Dashboard\Inicio::index', ['as'=> 'inicio.index']); //Ruta predeterminada de inicio
     // Ruta para ver la lista de artículos
@@ -42,8 +42,12 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Dashboard'], functi
     $routes->get('usuario/register','\App\Controllers\Dashboard\usuario::register', ['as'=> 'usuario.register']);
     $routes->post('usuario/register_post','\App\Controllers\Dashboard\usuario::register_post', ['as'=> 'usuario.register_post']);
     $routes->get('usuario/logout','\App\Controllers\Dashboard\usuario::logout', ['as'=> 'usuario.logout']);
-    
+    $routes->post('usuario/mensaje','\App\Controllers\Dashboard\usuario::enviarmensaje', ['as'=> 'usuario.mensaje_post']);
+
     $routes->get('acerca-de','\App\Controllers\Dashboard\Acercade::index', ['as' => 'acercade.index']);
+    $routes->get('politica-privacidad','\App\Controllers\Dashboard\Acercade::politica', ['as' => 'acercade.politica']);
+    $routes->get('terminos-y-condiciones','\App\Controllers\Dashboard\Acercade::terminos', ['as' => 'acercade.terminos']);
+
 
     $routes->get('contacto', '\App\Controllers\Dashboard\Contacto::index', ['as' => 'contacto.index']);
 
@@ -68,5 +72,8 @@ $routes->group('dashboard', ['namespace' => 'App\Controllers\Dashboard'], functi
 
     // Ruta para eliminar un artículo
     $routes->post('categoria/eliminar/(:num)', 'categoria::delete/$1');
+
+    $routes->get('usuario/mi-perfil', '\App\Controllers\Dashboard\usuario::mostrarPerfil', ['as'=> 'usuario.mostrarPerfil']);
+$routes->post('usuario/actualizar-perfil', '\App\Controllers\Dashboard\usuario::actualizarperfil', ['as'=> 'usuario.actualizarperfil']);
     
 });

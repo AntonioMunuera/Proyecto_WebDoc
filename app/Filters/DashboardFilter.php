@@ -38,10 +38,10 @@ class DashboardFilter implements FilterInterface
         }
         
         // Si el usuario no es administrador
-        if (session()->get("usuario")->rol != 'admin') {
-            session()->setFlashdata('mensaje', 'No tiene permiso para acceder a esta página.');
-            return redirect()->to(route_to("usuario.login"));
-        }
+        //if (session()->get("usuario")->rol != 'admin') {
+          //  session()->setFlashdata('mensaje', 'No tiene permiso para acceder a esta página.');
+           // return redirect()->back()->withInput();
+        //}
 
     }
 
